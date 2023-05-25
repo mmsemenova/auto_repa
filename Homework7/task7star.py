@@ -10,24 +10,31 @@
 
 # Здесь пишем код
 
-import roman
-
-
 class RomanNums:
     def __init__(self, string):
         self.string = string
 
     # Метод, который переводит римскую запись чисел в арабскую
     def from_roman(self):
-        return roman.fromRoman(self.string)
+
+        all_roman_digit = [(1000, 'M'), (900, 'CM'), (500, 'D'), (400, 'CD'), (100, 'C'), (90, 'XC'), (50, 'L'),
+                           (40, 'XL'), (10, 'X'), (9, 'IX'), (5, 'V'), (4, 'IV'), (1, 'I')]
+
+        arab = 0                                    # на старте арабское число равно нулю
+        for item, r in all_roman_digit:             # перебираем все пары из словаря all_roman_digit
+            while self.string.startswith(r):        # пока римское число начинается c буквы из словаря
+                arab += item                        # увеличиваем арабское число на соответствующее значение из словаря
+                self.string = self.string[len(r):]  # убираем найденную букву из римского числа
+        return arab                                 # возвращаем арабское число
 
     # Метод, который определяет, является ли арабское число палиндромом (True - является, иначе False)
     def is_palindrome(self):
-        if str(roman.fromRoman(self.string)) == str(roman.fromRoman(self.string))[::-1]:
-            a = True
+        a = str(RomanNums.from_roman(self))
+        if a == a[::-1]:
+            b = True
         else:
-            a = False
-        return a
+            b = False
+        return b
 
 # Ниже НИЧЕГО НЕ НАДО ИЗМЕНЯТЬ
 
